@@ -5,17 +5,25 @@ var level=0;
 var started=false;
 
 //one keypress only
-$(document).one("keypress",nextSequence);
+$(".btn").click(function() {
 
-
-//when user clicks
-$(".btn").on("click", function(){
-    var userChosenColor = $(this).attr('id');
-    userClickedPattern.push(userChosenColor);
-    playSound(userChosenColor);
-    animatePress(userChosenColor);
+    var userChosenColour = $(this).attr("id");
+    userClickedPattern.push(userChosenColour);
+  
+    playSound(userChosenColour);
+    animatePress(userChosenColour);
+  
     checkAnswer(userClickedPattern.length-1);
 });
+
+//when user clicks
+$(document).keypress(function() {
+    if (!started) {
+      $("#level-title").text("Level " + level);
+      nextSequence();
+      started = true;
+    }
+  });
 
 //for checking is game pattern matches with user clicked pattern
 function checkAnswer(currentLevel){
@@ -44,7 +52,7 @@ function checkAnswer(currentLevel){
 function startOver(){
     level=0;
     gamePattern=[];
-    $(document).one("keypress",nextSequence);
+    started = false;
 }
 
 //play sounds on clicks and gameover
